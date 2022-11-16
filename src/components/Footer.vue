@@ -13,9 +13,5 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: 'Footer',
-  data: () => ({}),
-}
+<script setup>
 </script>

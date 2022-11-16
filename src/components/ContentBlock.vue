@@ -38,18 +38,7 @@
   </v-row>
 </template>
 
-<script>
+<script setup>
 import Filters from "@/components/Filters";
 import UsersList from "@/components/UsersList";
-
-export default {
-  name: 'ContentBlock',
-
-  components: {
-    Filters,
-    UsersList
-  },
-
-  data: () => ({}),
-}
 </script>

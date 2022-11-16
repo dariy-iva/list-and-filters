@@ -44,30 +44,39 @@
     },
     "rules": {
       "vue/multi-word-component-names": 0,
-      "vue/max-attributes-per-line": ["error", {
-        "singleline": {
-          "max": 1
-        },
-        "multiline": {
-          "max": 1
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": {
+            "max": 1
+          },
+          "multiline": {
+            "max": 1
+          }
         }
-      }],
-      "vue/attributes-order": ["error", {
-        "order": [
-          "DEFINITION",
-          "LIST_RENDERING",
-          "CONDITIONALS",
-          "RENDER_MODIFIERS",
-          "GLOBAL",
-          ["UNIQUE", "SLOT"],
-          "TWO_WAY_BINDING",
-          "OTHER_DIRECTIVES",
-          "OTHER_ATTR",
-          "EVENTS",
-          "CONTENT"
-        ],
-        "alphabetical": false
-      }]
+      ],
+      "vue/attributes-order": [
+        "error",
+        {
+          "order": [
+            "DEFINITION",
+            "LIST_RENDERING",
+            "CONDITIONALS",
+            "RENDER_MODIFIERS",
+            "GLOBAL",
+            [
+              "UNIQUE",
+              "SLOT"
+            ],
+            "TWO_WAY_BINDING",
+            "OTHER_DIRECTIVES",
+            "OTHER_ATTR",
+            "EVENTS",
+            "CONTENT"
+          ],
+          "alphabetical": false
+        }
+      ]
     }
   },
   "browserslist": [

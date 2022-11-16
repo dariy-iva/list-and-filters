@@ -23,36 +23,26 @@
   </v-app>
 </template>
 
-<script>
+<script setup>
+import {computed, onBeforeMount} from "vue";
+import {useStore} from 'vuex'
 import ContentBlock from "@/components/ContentBlock";
 import Footer from "@/components/Footer";
-import {mapGetters} from "vuex";
 
-export default {
-  name: 'App',
+const store = useStore();
 
-  components: {
-    ContentBlock,
-    Footer
-  },
+const preloadIsOpen = computed(() => store.getters.preloadIsOpen);
 
-  data: () => ({}),
+onBeforeMount(() => {
+  store.commit('setPreloadIsOpen', true);
 
-  computed: {
-    ...mapGetters(['preloadIsOpen']),
-  },
-
-  beforeMount() {
-    this.$store.commit('setPreloadIsOpen', true);
-
-    this.$store.dispatch('getUsers')
-      .then(res => {
-        this.$store.commit({
-          type: 'setUsers',
-          users: res,
-        });
-        this.$store.commit('setPreloadIsOpen', false);
-      })
-  },
-}
+  store.dispatch('getUsers')
+    .then(res => {
+      store.commit({
+        type: 'setUsers',
+        users: res,
+      });
+      store.commit('setPreloadIsOpen', false);
+    })
+})
 </script>

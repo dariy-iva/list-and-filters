@@ -3,6 +3,13 @@
     <v-list-subheader>List</v-list-subheader>
 
     <v-list-item
+      v-show="!filteredUsers.length"
+      lines="auto"
+    >
+      No users found by the selected filters
+    </v-list-item>
+
+    <v-list-item
       v-for="user in filteredUsers"
       :key="`user-${user.id}`"
       lines="auto"
@@ -28,7 +35,7 @@
         />
 
         <v-expand-transition>
-          <div v-show="activeUsersId.includes(user.id)">
+          <div v-show="data.activeUsersId.includes(user.id)">
             Address: {{ user.country.replace(user.country[0], user.country[0].toUpperCase()) }}
           </div>
         </v-expand-transition>
@@ -37,45 +44,38 @@
   </v-list>
 </template>
 
-<script>
-import {mapGetters} from 'vuex';
+<script setup>
+import {computed, reactive} from "vue";
+import {useStore} from 'vuex';
 
-export default {
-  name: "UsersList",
+const store = useStore();
 
-  data: () => ({
-    activeUsersId: [],
-  }),
+const data = reactive({activeUsersId: []});
 
-  computed: {
-    ...mapGetters(['users', 'filterByCountry', 'filterByScore']),
+const filterByCountry = computed(() => store.getters.filterByCountry);
+const filterByScore = computed(() => store.getters.filterByScore);
 
-    filteredUsers() {
-      let filteredUsers = this.users;
+const filteredUsers = computed(() => {
+  let filteredUsers = store.getters.users;
 
-      if (this.filterByCountry) {
-        filteredUsers = this.users.filter(user => user.country === this.filterByCountry);
-      }
-
-      if (this.filterByScore) {
-        const {from, to} = this.filterByScore;
-        filteredUsers = this.users.filter(user => (user.score > from - 1) && (user.score < to + 1));
-      }
-
-      return filteredUsers;
-    }
-  },
-
-  methods: {
-    toggleVisibleUserCountry(userId) {
-      if (this.activeUsersId.includes(userId)) {
-        this.activeUsersId = this.activeUsersId.filter(id => id !== userId);
-      } else {
-        this.activeUsersId.push(userId);
-      }
-    }
+  if (filterByCountry.value) {
+    filteredUsers = filteredUsers.filter(user => user.country === filterByCountry.value);
   }
 
+  if (filterByScore.value) {
+    const {from, to} = filterByScore.value;
+    filteredUsers = filteredUsers.filter(user => (user.score > from - 1) && (user.score < to + 1));
+  }
+
+  return filteredUsers;
+})
+
+function toggleVisibleUserCountry(userId) {
+  if (data.activeUsersId.includes(userId)) {
+    data.activeUsersId = data.activeUsersId.filter(id => id !== userId);
+  } else {
+    data.activeUsersId.push(userId);
+  }
 }
 </script>
 
